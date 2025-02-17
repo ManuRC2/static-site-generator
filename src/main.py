@@ -1,4 +1,5 @@
-from textnode import TextNode, TextType
+from utils import extract_markdown_links
 
-
-print(TextNode("This is a text node", TextType.BOLD, "google.com"))
+text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+print(extract_markdown_links(text))
+# [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")]
