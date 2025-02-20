@@ -17,7 +17,7 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is a different text node", TextType.BOLD, "asd")
         self.assertNotEqual(node, node2)
         node = TextNode("This is a text node", TextType.BOLD, "asd")
-        node2 = TextNode("This is a text node", TextType.NORMAL, "asd")
+        node2 = TextNode("This is a text node", TextType.TEXT, "asd")
         self.assertNotEqual(node, node2)
         node = TextNode("This is a text node", TextType.BOLD, "asd")
         node2 = TextNode("This is a text node", TextType.BOLD, "asdasdasd")
@@ -32,7 +32,7 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node.text_type, TextType.ITALIC)
 
     def test_text_content(self):
-        node = TextNode("This is a text node", TextType.NORMAL)
+        node = TextNode("This is a text node", TextType.TEXT)
         self.assertEqual(node.text, "This is a text node")
 
     def test_url(self):
@@ -40,7 +40,7 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(node.url, "http://example.com")
 
     def test_no_url(self):
-        node = TextNode("This is a text node", TextType.NORMAL)
+        node = TextNode("This is a text node", TextType.TEXT)
         self.assertIsNone(node.url)
 
 if __name__ == "__main__":

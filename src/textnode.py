@@ -1,7 +1,7 @@
 from enum import Enum
 
 class TextType(Enum):
-    NORMAL = "normal"
+    TEXT = "normal"
     BOLD = "bold"
     ITALIC = "italic"
     CODE = "code"
@@ -9,7 +9,7 @@ class TextType(Enum):
     IMAGE = "image"
 
 HTML_TAGS = {
-    TextType.NORMAL: "",
+    TextType.TEXT: "",
     TextType.BOLD: "b",
     TextType.ITALIC: "i",
     TextType.CODE: "code",
@@ -18,7 +18,7 @@ HTML_TAGS = {
 }
 
 DELIMITERS = {
-    TextType.NORMAL: ("", ""),
+    TextType.TEXT: ("", ""),
     TextType.BOLD: ("**", "**"),
     TextType.ITALIC: ("*", "*"),
     TextType.CODE: ("`", "`"),
@@ -39,3 +39,9 @@ class TextNode():
     
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
+    
+    def is_splittable(self):
+        for text_type in TextType.__members__.values():
+            if self.text.count(DELIMITERS[text_type][0]) > 1 and self.text.count(DELIMITERS[text_type][1]) > 1:
+                return True
+        return False
