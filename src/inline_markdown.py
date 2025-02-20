@@ -1,4 +1,3 @@
-from pprint import pprint
 import re
 
 from htmlnode import LeafNode
@@ -107,3 +106,4 @@ def text_to_text_nodes(text: str) -> list[TextNode]:
     nodes = split_nodes(nodes, TextType.IMAGE)
     nodes = split_nodes(nodes, TextType.LINK)
     return nodes
+

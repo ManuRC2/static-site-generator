@@ -1,6 +1,13 @@
 from pprint import pprint
-from utils import text_to_text_nodes
+
+from inline_markdown import markdown_to_blocks
 
 
-nodes = text_to_text_nodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)")
+nodes = markdown_to_blocks("""# This is a heading
+
+This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+* This is the first list item in a list block
+* This is a list item
+* This is another list item""")
 pprint(nodes)

@@ -1,7 +1,6 @@
 import unittest
-from utils import extract_markdown_images, extract_markdown_links, split_nodes, text_node_to_html_node, text_to_text_nodes
-from textnode import TextNode, TextType, DELIMITERS
-from htmlnode import LeafNode
+from inline_markdown import extract_markdown_images, extract_markdown_links, split_nodes, text_node_to_html_node, text_to_text_nodes
+from textnode import TextNode, TextType
 
 class TestTextNodeToHtmlNode(unittest.TestCase):
     def test_normal_text(self):
