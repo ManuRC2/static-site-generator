@@ -32,6 +32,16 @@ def extract_markdown_links(text: str) -> list[tuple[str, str]]:
 
 
 def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode]:
+    """
+    Splits text nodes based on the specified text type.
+
+    Args:
+        old_nodes (list[TextNode]): The list of text nodes to be split.
+        text_type (TextType): The type of text to split (e.g., BOLD, ITALIC, CODE, IMAGE, LINK).
+
+    Returns:
+        list[TextNode]: A new list of text nodes with the specified text type split.
+    """
     # TODO add support for nested nodes
     new_nodes = []
     if text_type in [TextType.BOLD, TextType.ITALIC, TextType.CODE]:
@@ -41,7 +51,7 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
                 len_end = len(DELIMITERS[text_type][1])
                 start = node.text.find(DELIMITERS[text_type][0])
                 end = node.text.rfind(DELIMITERS[text_type][1])
-                if not start == -1 and not end == -1:
+                if start != -1 and end != -1:
                     new_nodes.extend([TextNode(text_type=node.text_type, text=node.text[:start]),
                                     TextNode(text_type=text_type, text=node.text[(start + len_start):end]),
                                     TextNode(text_type=node.text_type, text=node.text[(end + len_end):]),
@@ -56,7 +66,7 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
             if node.text_type == TextType.TEXT:
                 if text_type == TextType.LINK:
                     values = extract_markdown_links(node.text)
-                if text_type == TextType.IMAGE:
+                elif text_type == TextType.IMAGE:
                     values = extract_markdown_images(node.text)
                 if values:
                     val_start = 0
@@ -64,12 +74,12 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
                     
                     for value in values:
                         prev_end = val_end
-                        val_start = node.text.find(f"{delimiter_start}{value[0]}]({value[1]})")
-                        val_end = val_start + len(f"{delimiter_start}{value[0]}]({value[1]})")
+                        val_string = f"{delimiter_start}{value[0]}]({value[1]})"
+                        val_start = node.text.find(val_string)
+                        val_end = val_start + len(val_string)
                         if prev_end < len(node.text):
                             new_nodes.append(TextNode(text=node.text[prev_end:val_start], text_type=node.text_type))
-                        if text_type == TextType.LINK:
-                            new_nodes.append(TextNode(text=value[0], text_type=text_type, url=value[1]))
+                        new_nodes.append(TextNode(text=value[0], text_type=text_type, url=value[1]))
                         
                     if val_end < len(node.text):
                         new_nodes.append(TextNode(text=node.text[val_end:], text_type=node.text_type))
@@ -81,6 +91,15 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
 
 
 def text_to_text_nodes(text: str) -> list[TextNode]:
+    """
+    Converts a text string into a list of TextNode objects, splitting by various text types.
+
+    Args:
+        text (str): The input text string to be converted.
+
+    Returns:
+        list[TextNode]: A list of TextNode objects representing the parsed text.
+    """
     nodes = [TextNode(text, TextType.TEXT)]
     nodes = split_nodes(nodes, TextType.BOLD)
     nodes = split_nodes(nodes, TextType.ITALIC)
