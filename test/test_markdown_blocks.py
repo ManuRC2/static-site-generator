@@ -61,7 +61,7 @@ class TestBlockToBlockType(unittest.TestCase):
         self.assertEqual(result, BlockType.QUOTE)
 
     def test_unordered_list_block(self):
-        block = "- Item 1\n- Item 2\n- Item 3"
+        block = "* Item 1\n* Item 2\n* Item 3"
         result = block_to_block_type(block)
         self.assertEqual(result, BlockType.UNORDERED_LIST)
 

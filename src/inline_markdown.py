@@ -8,10 +8,10 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     match text_node.text_type:
         case TextType.TEXT:
             return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
-        case TextType.ITALIC:
-            return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.CODE:
             return ParentNode(tag="pre", children=[LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)])
+        case TextType.ITALIC:
+            return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.BOLD:
             return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.LINK:
@@ -101,8 +101,8 @@ def text_to_text_nodes(text: str) -> list[TextNode]:
     """
     nodes = [TextNode(text, TextType.TEXT)]
     nodes = split_nodes(nodes, TextType.BOLD)
-    nodes = split_nodes(nodes, TextType.ITALIC)
     nodes = split_nodes(nodes, TextType.CODE)
+    nodes = split_nodes(nodes, TextType.ITALIC)
     nodes = split_nodes(nodes, TextType.IMAGE)
     nodes = split_nodes(nodes, TextType.LINK)
     return nodes

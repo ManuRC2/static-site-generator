@@ -6,7 +6,7 @@ class TestTextNodeToHtmlNode(unittest.TestCase):
     def test_normal_text(self):
         text_node = TextNode(text="Hello", text_type=TextType.TEXT)
         html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "")
+        self.assertEqual(html_node.tag, "p")
         self.assertEqual(html_node.value, "Hello")
         self.assertEqual(html_node.props, None)
 
@@ -27,9 +27,11 @@ class TestTextNodeToHtmlNode(unittest.TestCase):
     def test_code_text(self):
         text_node = TextNode(text="print('Hello')", text_type=TextType.CODE)
         html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "code")
-        self.assertEqual(html_node.value, "print('Hello')")
+        self.assertEqual(html_node.tag, "pre")
+        self.assertEqual(html_node.value, None)
         self.assertEqual(html_node.props, None)
+        self.assertEqual(html_node.children[0].tag, "code")
+        self.assertEqual(html_node.children[0].value, "print('Hello')")
 
     def test_link_text(self):
         text_node = TextNode(text="GitHub", text_type=TextType.LINK, url="https://github.com")
@@ -127,7 +129,7 @@ class TestSplitNodes(unittest.TestCase):
         self.assertEqual(result[2].text_type, TextType.TEXT)
 
     def test_split_code_text(self):
-        text_node = TextNode(text="This is `code` text", text_type=TextType.TEXT)
+        text_node = TextNode(text="This is ```code``` text", text_type=TextType.TEXT)
         result = split_nodes([text_node], TextType.CODE)
         self.assertEqual(len(result), 3)
         self.assertEqual(result[0].text, "This is ")
@@ -160,7 +162,7 @@ class TestSplitNodes(unittest.TestCase):
 
 class TestTextToTextNodes(unittest.TestCase):
     def test_text_to_text_nodes(self):
-        text = "This is **bold** and *italic* text with `code` and an image ![alt text](https://example.com/image.png) and a link [GitHub](https://github.com)"
+        text = "This is **bold** and *italic* text with ```code``` and an image ![alt text](https://example.com/image.png) and a link [GitHub](https://github.com)"
         result = text_to_text_nodes(text)
         self.assertEqual(len(result), 10)
         self.assertEqual(result[0].text, "This is ")

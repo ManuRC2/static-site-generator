@@ -21,7 +21,7 @@ DELIMITERS = {
     TextType.TEXT: ("", ""),
     TextType.BOLD: ("**", "**"),
     TextType.ITALIC: ("*", "*"),
-    TextType.CODE: ("`", "`"),
+    TextType.CODE: ("```", "```"),
     TextType.LINK: ("[", "]"),
     TextType.IMAGE: ("![", "]"),
 }

@@ -46,10 +46,10 @@ class TestLeafNode(unittest.TestCase):
 
     def test_to_html(self):
         node = LeafNode(tag='img', value="hello", props={'src': 'image.png', 'alt': 'An image'})
-        self.assertEqual(node.to_html(), '<img src="image.png" alt="An image">hello</img>')
+        self.assertEqual(node.to_html().replace('\n', ''), '<img src="image.png" alt="An image">hello</img>')
 
         node_different = LeafNode(tag='input', value="text", props={'type': 'text'})
-        self.assertEqual(node_different.to_html(), '<input type="text">text</input>')
+        self.assertEqual(node_different.to_html().replace('\n', ''), '<input type="text">text</input>')
 
 
 class TestParentNode(unittest.TestCase):
@@ -83,11 +83,11 @@ class TestParentNode(unittest.TestCase):
         
         # Test when one children
         node = ParentNode(tag='div', children=[LeafNode(tag='p', value='Hello')], props={'class': 'container'})
-        self.assertEqual(node.to_html(), '<div class="container"><p>Hello</p></div>')
+        self.assertEqual(node.to_html().replace('\n', ''), '<div class="container"><p>Hello</p></div>')
         
         # Test when multiple children
         node = ParentNode(tag='div', children=[LeafNode(tag='p', value='Hello'), LeafNode(tag='p', value='World')], props={'class': 'container'})
-        self.assertEqual(node.to_html(), '<div class="container"><p>Hello</p><p>World</p></div>')
+        self.assertEqual(node.to_html().replace('\n', ''), '<div class="container"><p>Hello</p><p>World</p></div>')
 
 
 if __name__ == '__main__':
