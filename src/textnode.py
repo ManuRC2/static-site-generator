@@ -9,7 +9,7 @@ class TextType(Enum):
     IMAGE = "image"
 
 HTML_TAGS = {
-    TextType.TEXT: "",
+    TextType.TEXT: "p",
     TextType.BOLD: "b",
     TextType.ITALIC: "i",
     TextType.CODE: "code",

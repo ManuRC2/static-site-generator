@@ -1,6 +1,6 @@
 import re
 
-from htmlnode import LeafNode
+from htmlnode import LeafNode, ParentNode
 from textnode import DELIMITERS, HTML_TAGS, TextNode, TextType
 
 
@@ -11,7 +11,7 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
         case TextType.ITALIC:
             return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.CODE:
-            return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
+            return ParentNode(tag="pre", children=[LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)])
         case TextType.BOLD:
             return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.LINK:
