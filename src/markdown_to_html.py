@@ -39,22 +39,16 @@ def markdown_block_to_html_node(markdown_node: str) -> ParentNode:
             node.children = text_to_children(markdown_node)
         case BlockType.HEADING:
             x = len(markdown_node.split()[0])
-            node = ParentNode(f'h{x}', children=[])
-            text = markdown_node[x:].strip()
-            node.children = text_to_children(text)
+            node = ParentNode(f'h{x}', children=text_to_children(markdown_node[x:].strip()))
         case BlockType.CODE:
-            node = ParentNode('code')
-            text = markdown_node[3:-3].strip()
-            node.children = text_to_children(text)
+            node = ParentNode('code', children=text_to_children(markdown_node[3:-3].strip()))
         case BlockType.QUOTE:
-            node = ParentNode('blockquote')
-            text = markdown_node[1:].strip()
-            node.children = text_to_children(text)
+            node = ParentNode('blockquote', children=text_to_children(markdown_node[1:].strip()))
         case BlockType.UNORDERED_LIST:
-            node = ParentNode('ul', children=[ParentNode('li', children=text_to_children(line[1:])) for line in markdown_node.split('\n')])
+            node = ParentNode('ul', children=[ParentNode('li', children=text_to_children(line[2:])) for line in markdown_node.split('\n')])
         case BlockType.ORDERED_LIST:
-            node = ParentNode('ol', children=[ParentNode('li', children=text_to_children(line[1:])) for line in markdown_node.split('\n')])
-                
+            node = ParentNode('ol', children=[ParentNode('li', children=text_to_children(line[3:])) for line in markdown_node.split('\n')])
+        # TODO add cases for images and links
     return node
             
     
@@ -72,6 +66,7 @@ def markdown_to_html_node(markdown: str) -> HTMLNode:
     parent_node = ParentNode('div', children=[])
     markdown_blocks = markdown_to_blocks(markdown)
     for block in markdown_blocks:
+        print(block)
         parent_node.children.append(markdown_block_to_html_node(block))
     return parent_node
     
