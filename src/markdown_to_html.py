@@ -32,7 +32,6 @@ def markdown_block_to_html_node(markdown_node: str) -> ParentNode:
         HTMLNode: The HTML node representing the markdown block.
     """
     block_type = block_to_block_type(markdown_node)
-    print(block_type)
     match block_type:
         case BlockType.PARAGRAPH:
             node = ParentNode('p', markdown_node)
@@ -48,7 +47,6 @@ def markdown_block_to_html_node(markdown_node: str) -> ParentNode:
             node = ParentNode('ul', children=[ParentNode('li', children=text_to_children(line[2:])) for line in markdown_node.split('\n')])
         case BlockType.ORDERED_LIST:
             node = ParentNode('ol', children=[ParentNode('li', children=text_to_children(line[3:])) for line in markdown_node.split('\n')])
-        # TODO add cases for images and links
     return node
             
     
@@ -66,7 +64,6 @@ def markdown_to_html_node(markdown: str) -> HTMLNode:
     parent_node = ParentNode('div', children=[])
     markdown_blocks = markdown_to_blocks(markdown)
     for block in markdown_blocks:
-        print(block)
         parent_node.children.append(markdown_block_to_html_node(block))
     return parent_node
     

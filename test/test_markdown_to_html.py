@@ -69,13 +69,12 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
     def test_image_conversion(self):
         markdown = "![alt text](https://example.com/image.jpg)"
         html_node = markdown_to_html_node(markdown)
-        print(html_node.to_html())
         self.assertIsInstance(html_node, ParentNode)
         self.assertEqual(html_node.tag, 'div')
         self.assertEqual(len(html_node.children), 1)
-        self.assertEqual(html_node.children[0].tag, 'img')
-        self.assertEqual(html_node.children[0].props['src'], "https://example.com/image.jpg")
-        self.assertEqual(html_node.children[0].props['alt'], "alt text")
+        self.assertEqual(html_node.children[0].children[0].tag, 'img')
+        self.assertEqual(html_node.children[0].children[0].props['src'], "https://example.com/image.jpg")
+        self.assertEqual(html_node.children[0].children[0].props['alt'], "alt text")
         
 
 if __name__ == '__main__':

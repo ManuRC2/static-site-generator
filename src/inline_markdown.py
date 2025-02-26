@@ -76,7 +76,7 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
                         val_string = f"{delimiter_start}{value[0]}]({value[1]})"
                         val_start = node.text.find(val_string)
                         val_end = val_start + len(val_string)
-                        if prev_end < len(node.text):
+                        if prev_end < len(node.text) and prev_end != val_start:
                             new_nodes.append(TextNode(text=node.text[prev_end:val_start], text_type=node.text_type))
                         new_nodes.append(TextNode(text=value[0], text_type=text_type, url=value[1]))
                         
