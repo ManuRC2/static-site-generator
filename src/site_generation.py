@@ -36,3 +36,13 @@ def extract_title(markdown: str):
         if line.startswith("#"):
             return line.split("# ")[1]
     raise ValueError("No title found")
+
+
+def generate_page(from_path, template_path, dest_path):
+    print(f"Generating page {from_path} to {dest_path} using {template_path}")
+    with open(from_path, "r") as file:
+        content = file.read()
+    with open(template_path, "r") as file:
+        template = file.read()
+    title = extract_title(content)
+    # TODO
