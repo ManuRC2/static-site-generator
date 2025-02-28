@@ -1,5 +1,7 @@
 import os, shutil
 
+from markdown_to_html import markdown_to_html_node
+
 def copy_dir(src: str, dest: str):
     files = os.listdir(src)
     for file in files:
@@ -13,7 +15,7 @@ def copy_dir(src: str, dest: str):
             os.mkdir(dest_path)
             copy_dir(path, dest_path)
 
-def generate_site():
+def generate_public():
     current_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     public_path = os.path.join(current_path, "public")
     static_path = os.path.join(current_path, "static")
@@ -45,4 +47,8 @@ def generate_page(from_path, template_path, dest_path):
     with open(template_path, "r") as file:
         template = file.read()
     title = extract_title(content)
-    # TODO
+    html_node = markdown_to_html_node(content)
+    html = html_node.to_html()
+    final_html = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
+    with open(dest_path, "w+") as file:
+        file.write(final_html)

@@ -40,7 +40,7 @@ def block_to_block_type(block: str) -> BlockType:
         return BlockType.CODE
     elif block.startswith('>'):
         return BlockType.QUOTE
-    elif False not in [x.startswith('* ') for x in block.split('\n')]:
+    elif False not in [x.startswith('- ') for x in block.split('\n')]:
         return BlockType.UNORDERED_LIST
     elif False not in [x[0].isdigit() and x[1] == '.' for x in block.split('\n')]:
         return BlockType.ORDERED_LIST

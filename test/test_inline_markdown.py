@@ -6,7 +6,7 @@ class TestTextNodeToHtmlNode(unittest.TestCase):
     def test_normal_text(self):
         text_node = TextNode(text="Hello", text_type=TextType.TEXT)
         html_node = text_node_to_html_node(text_node)
-        self.assertEqual(html_node.tag, "p")
+        self.assertEqual(html_node.tag, "")
         self.assertEqual(html_node.value, "Hello")
         self.assertEqual(html_node.props, None)
 

@@ -42,7 +42,9 @@ def markdown_block_to_html_node(markdown_node: str) -> ParentNode:
         case BlockType.CODE:
             node = ParentNode('code', children=text_to_children(markdown_node[3:-3].strip()))
         case BlockType.QUOTE:
-            node = ParentNode('blockquote', children=text_to_children(markdown_node[1:].strip()))
+            text = markdown_node.split("\n")
+            text = "\n".join([line[2:] for line in text])
+            node = ParentNode('blockquote', children=text_to_children(text))
         case BlockType.UNORDERED_LIST:
             node = ParentNode('ul', children=[ParentNode('li', children=text_to_children(line[2:])) for line in markdown_node.split('\n')])
         case BlockType.ORDERED_LIST:

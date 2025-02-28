@@ -7,7 +7,7 @@ from textnode import DELIMITERS, HTML_TAGS, TextNode, TextType
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     match text_node.text_type:
         case TextType.TEXT:
-            return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
+            return LeafNode(tag="", value=text_node.text)
         case TextType.CODE:
             return ParentNode(tag="pre", children=[LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)])
         case TextType.ITALIC:

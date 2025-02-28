@@ -41,7 +41,7 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
         self.assertEqual(html_node.children[0].children[0].value, "This is a quote.")
 
     def test_unordered_list_conversion(self):
-        markdown = "* Item 1\n* Item 2"
+        markdown = "- Item 1\n- Item 2"
         html_node = markdown_to_html_node(markdown)
         self.assertIsInstance(html_node, ParentNode)
         self.assertEqual(html_node.tag, 'div')
