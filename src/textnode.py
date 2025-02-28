@@ -20,7 +20,7 @@ HTML_TAGS = {
 DELIMITERS = {
     TextType.TEXT: ("", ""),
     TextType.BOLD: ("**", "**"),
-    TextType.ITALIC: ("*", "*"),
+    TextType.ITALIC: ("_", "_"),
     TextType.CODE: ("```", "```"),
     TextType.LINK: ("[", "]"),
     TextType.IMAGE: ("![", "]"),
