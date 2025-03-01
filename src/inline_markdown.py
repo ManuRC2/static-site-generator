@@ -51,7 +51,8 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
                 del0 = node.text.count(DELIMITERS[text_type][0])
                 del1 = node.text.count(DELIMITERS[text_type][1])
                 ammount = min(del0, del1)
-                print(ammount)
+                if "Geographical" in node.text:
+                    print(node.text)
                 if ammount > 0:
                     for x in range(ammount):
                         start = node.text.find(DELIMITERS[text_type][0])
@@ -61,7 +62,10 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
                                             TextNode(text_type=text_type, text=node.text[(start + len_start):end]),
                                             ])
                             node.text = node.text[end + len_end:]
-                    new_nodes.append(TextNode(text_type=node.text_type, text=node.text[(end + len_end):]))
+                    if end != -1:
+                        new_nodes.append(TextNode(text_type=node.text_type, text=node.text[end:]))
+                    else:
+                        new_nodes.append(node)
                 else:
                     new_nodes.append(node)
             else:

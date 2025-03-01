@@ -106,6 +106,7 @@ class TestSplitNodes(unittest.TestCase):
     def test_split_bold_text(self):
         text_node = TextNode(text="This is **bold** text", text_type=TextType.TEXT)
         result = split_nodes([text_node], TextType.BOLD)
+        print(result)
         self.assertEqual(len(result), 3)
         self.assertEqual(result[0].text, "This is ")
         self.assertEqual(result[0].text_type, TextType.TEXT)
