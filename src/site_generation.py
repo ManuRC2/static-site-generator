@@ -52,3 +52,19 @@ def generate_page(from_path, template_path, dest_path):
     final_html = template.replace("{{ Title }}", title).replace("{{ Content }}", html)
     with open(dest_path, "w+") as file:
         file.write(final_html)
+        
+        
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    files = os.listdir(dir_path_content)
+    for file in files:
+        path = os.path.join(dir_path_content, file)
+        dest_file = file.split(".")[0] + ".html"
+        if os.path.isfile(path):
+            print("Generating page:", path)
+            dest_file = file.split(".")[0] + ".html"
+            dest_path = os.path.join(dest_dir_path, dest_file)
+            generate_page(path, template_path, dest_path)
+        else:
+            dest_path = os.path.join(dest_dir_path, file)
+            os.mkdir(dest_path)
+            generate_pages_recursive(path, template_path, dest_path)

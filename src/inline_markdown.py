@@ -1,6 +1,6 @@
 import re
 
-from htmlnode import LeafNode, ParentNode
+from htmlnode import LeafNode
 from textnode import DELIMITERS, HTML_TAGS, TextNode, TextType
 
 
@@ -9,7 +9,7 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
         case TextType.TEXT:
             return LeafNode(tag="", value=text_node.text)
         case TextType.CODE:
-            return ParentNode(tag="pre", children=[LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)])
+            return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.ITALIC:
             return LeafNode(tag=HTML_TAGS[text_node.text_type], value=text_node.text)
         case TextType.BOLD:
@@ -48,13 +48,20 @@ def split_nodes(old_nodes: list[TextNode], text_type: TextType) -> list[TextNode
             if node.text_type == TextType.TEXT:
                 len_start = len(DELIMITERS[text_type][0])
                 len_end = len(DELIMITERS[text_type][1])
-                start = node.text.find(DELIMITERS[text_type][0])
-                end = node.text.rfind(DELIMITERS[text_type][1])
-                if start != -1 and end != -1:
-                    new_nodes.extend([TextNode(text_type=node.text_type, text=node.text[:start]),
-                                    TextNode(text_type=text_type, text=node.text[(start + len_start):end]),
-                                    TextNode(text_type=node.text_type, text=node.text[(end + len_end):]),
-                                    ])
+                del0 = node.text.count(DELIMITERS[text_type][0])
+                del1 = node.text.count(DELIMITERS[text_type][1])
+                ammount = min(del0, del1)
+                print(ammount)
+                if ammount > 0:
+                    for x in range(ammount):
+                        start = node.text.find(DELIMITERS[text_type][0])
+                        end = node.text[(start+len_start):].find(DELIMITERS[text_type][1]) + start + len_start
+                        if start != -1 and end != -1:
+                            new_nodes.extend([TextNode(text_type=node.text_type, text=node.text[:start]),
+                                            TextNode(text_type=text_type, text=node.text[(start + len_start):end]),
+                                            ])
+                            node.text = node.text[end + len_end:]
+                    new_nodes.append(TextNode(text_type=node.text_type, text=node.text[(end + len_end):]))
                 else:
                     new_nodes.append(node)
             else:
