@@ -1,5 +1,4 @@
 *.code*
 __pycache__/
-public/
 .prettierrc
 .vscode

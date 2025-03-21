@@ -71,7 +71,7 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             
     
 def generate_website(dir_path_content, template_path, basepath=""):
-    base_dest_path = os.path.join(basepath.strip("/"), 'public')
+    base_dest_path = os.path.join(basepath.strip("/"), 'docs')
     os.makedirs(base_dest_path, exist_ok=True)
     generate_public(base_dest_path)
     generate_pages_recursive(dir_path_content, template_path, base_dest_path)
